@@ -103,11 +103,11 @@ $env:SERVICE_HOST="my-server"
 $env:ANNONYMOUS_NAME="Annonymous"
 ```
 
-3) **Run the app**
+3) **Run the app** <br>
+Run the app and open **http://127.0.0.1:8000** in your browser.
 ```bash
 python main.py
 ```
-Open **http://127.0.0.1:8000** in your browser.
 
 4) **Where files are stored**
 - When running locally, files are saved under `./uploads` (created automatically).
