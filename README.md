@@ -1,7 +1,6 @@
 # FileBox
 
-**FileBox** is a lightweight, self‑hosted file sharing service.  
-It runs on a single Flask app and stores metadata in a simple CSV file. No login is required—open the site, upload a file, (optionally) set a password, and share the page with others to download.
+**FileBox** is a lightweight, self‑hosted file sharing service. It runs on a single Flask app and stores metadata in a simple CSV file. No login is required—open the site, upload a file, (optionally) set a password, and share the page with others to download.
 
 <p align="center">
   <img src="./Screenshot.png" alt="Screenshot" width="720">
@@ -9,11 +8,11 @@ It runs on a single Flask app and stores metadata in a simple CSV file. No login
 
 ## Features
 
-- **One‑page Web UI** – Upload & download in a single screen.
-- **Optional password** – Protect individual files with a simple password field.
-- **Optional uploader name** – Record who uploaded each file.
-- **CSV index** – Tracks upload time, uploader, size, password (plaintext by design), and filename.
-- **Docker‑ready** – Build once and run anywhere.
+- **One‑page Web UI**: Upload & download in a single screen.
+- **Optional password**: Protect individual files with a simple password field.
+- **Optional uploader name**: Record who uploaded each file.
+- **CSV index**: Tracks upload time, uploader, size, password (plaintext by design), and filename.
+- **Docker‑ready**: Build once and run anywhere.
 
 > **Note on security**: Passwords are stored as **plaintext** in `index.csv` by design for simplicity. Use only in trusted networks or adapt the code to hash passwords if you need stronger security.
 
@@ -33,9 +32,9 @@ git clone https://github.com/miniprime1/FileBox.git
 cd FileBox
 ```
 
-2) **Build the image** (tagged as `posdrop:latest` per project convention)  
+2) **Build the image** (tagged as `filebbx:latest` per project convention)  
 ```bash
-docker build -t posdrop:latest .
+docker build -t filebox:latest .
 ```
 
 3) **Prepare a data folder on the host**  
@@ -55,7 +54,7 @@ docker run -d \
   -e SERVICE_HOST="my-server" \
   -e ANNONYMOUS_NAME="Annonymous" \
   -v "$(pwd)/uploads:/app/uploads" \
-  posdrop:latest
+  filebox:latest
 ```
 
 - **Environment variables used here**
@@ -78,7 +77,7 @@ Visit **http://localhost:8000** (or replace `localhost` with your server/NAS IP 
 >   -e SERVICE_HOST="my-server" `
 >   -e ANNONYMOUS_NAME="Annonymous" `
 >   -v ${PWD}\uploads:/app/uploads `
->   posdrop:latest
+>   filebox:latest
 > ```
 
 
@@ -116,7 +115,7 @@ Open **http://127.0.0.1:8000** in your browser.
 
 <br>
 
-## ⚙️ Configuration Reference
+## Configuration Reference
 
 ### Environment Variables
 
@@ -133,6 +132,6 @@ Open **http://127.0.0.1:8000** in your browser.
 
 <br>
 
-## 📜 License
+## License
 
 This project is licensed under the [MIT License](LICENSE).
