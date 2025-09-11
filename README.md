@@ -1,4 +1,4 @@
-# 📦 FileBox
+# FileBox
 
 **FileBox** is a lightweight, self‑hosted file sharing service.  
 It runs on a single Flask app and stores metadata in a simple CSV file. No login is required—open the site, upload a file, (optionally) set a password, and share the page with others to download.
@@ -7,13 +7,13 @@ It runs on a single Flask app and stores metadata in a simple CSV file. No login
   <img src="./Screenshot.png" alt="Screenshot" width="720">
 </p>
 
-## ✨ Features
+## Features
 
-- 🖥️ **One‑page Web UI** – Upload & download in a single screen.
-- 🔑 **Optional password** – Protect individual files with a simple password field.
-- 📝 **Optional uploader name** – Record who uploaded each file.
-- 📊 **CSV index** – Tracks upload time, uploader, size, password (plaintext by design), and filename.
-- 🐳 **Docker‑ready** – Build once and run anywhere.
+- **One‑page Web UI** – Upload & download in a single screen.
+- **Optional password** – Protect individual files with a simple password field.
+- **Optional uploader name** – Record who uploaded each file.
+- **CSV index** – Tracks upload time, uploader, size, password (plaintext by design), and filename.
+- **Docker‑ready** – Build once and run anywhere.
 
 > **Note on security**: Passwords are stored as **plaintext** in `index.csv` by design for simplicity. Use only in trusted networks or adapt the code to hash passwords if you need stronger security.
 
@@ -21,7 +21,7 @@ It runs on a single Flask app and stores metadata in a simple CSV file. No login
 <br>
 
 
-## 🚀 Getting Started
+## Getting Started
 
 Below are two common ways to run FileBox. **Docker** is recommended for a quick start and easy data persistence.
 

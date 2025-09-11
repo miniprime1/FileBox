@@ -16,10 +16,10 @@ CSV_HEADERS = ["created_at", "uploader", "size", "password", "filename"]
 MAX_MB = int(os.getenv("MAX_MB", "100"))
 MAX_CONTENT_LENGTH = MAX_MB * 1024 * 1024
 
-SERVICE_HOST = str(os.getenv("SERVICE_HOST", "ICPA"))
+SERVICE_HOST = str(os.getenv("SERVICE_HOST", ""))
 SERVICE_HOST_ENCODED = f"for {SERVICE_HOST}" if SERVICE_HOST != "" else ""
 
-ANNONYMOUS_NAME = str(os.getenv("ANNONYMOUS_NAME", "익명"))
+ANNONYMOUS_NAME = str(os.getenv("ANNONYMOUS_NAME", "Annonymous"))
 
 app = Flask(__name__)
 app.config.update(
