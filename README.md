@@ -32,7 +32,7 @@ git clone https://github.com/miniprime1/FileBox.git
 cd FileBox
 ```
 
-2) **Build the image** (tagged as `filebbx:latest` per project convention)  
+2) **Build the image** (tagged as `filebox:latest` per project convention)  
 ```bash
 docker build -t filebox:latest .
 ```
@@ -94,8 +94,8 @@ pip install Flask==3.0.3
 ```bash
 # Linux/macOS
 export MAX_MB=100
-export SERVICE_HOST="ICPA"
-export ANNONYMOUS_NAME="익명의 담송인"
+export SERVICE_HOST="my-server"
+export ANNONYMOUS_NAME="Annonymous"
 
 # Windows PowerShell
 $env:MAX_MB="100"
@@ -123,7 +123,7 @@ python main.py
 |----------------|---------|--------------------------------------------------------------------|
 | `MAX_MB`       | `100`   | Maximum upload size (MB). Also shown in the UI header.             |
 | `SERVICE_HOST` | ` `      | Optional label shown in the header.                                |
-| `ANNONYMOUS_NAME` | `익명`    | Name displayed if uploader does not specify their name.        |
+| `ANNONYMOUS_NAME` | `Annonymous`    | Name displayed if uploader does not specify their name.        |
 
 ### Path to File Storage
 
