@@ -51,7 +51,7 @@ docker run -d \
   --name filebox \
   -p 8000:8000 \
   -e MAX_MB=100 \
-  -e SERVICE_HOST="my-server" \
+  -e SERVICE_HOST="your name" \
   -e ANNONYMOUS_NAME="Annonymous" \
   -v "$(pwd)/uploads:/app/uploads" \
   filebox:latest
@@ -74,7 +74,7 @@ Visit **http://localhost:8000** (or replace `localhost` with your server/NAS IP 
 >   --name filebox `
 >   -p 8000:8000 `
 >   -e MAX_MB=100 `
->   -e SERVICE_HOST="my-server" `
+>   -e SERVICE_HOST="your name" `
 >   -e ANNONYMOUS_NAME="Annonymous" `
 >   -v ${PWD}\uploads:/app/uploads `
 >   filebox:latest
@@ -94,12 +94,12 @@ pip install Flask==3.0.3
 ```bash
 # Linux/macOS
 export MAX_MB=100
-export SERVICE_HOST="my-server"
+export SERVICE_HOST="your name"
 export ANNONYMOUS_NAME="Annonymous"
 
 # Windows PowerShell
 $env:MAX_MB="100"
-$env:SERVICE_HOST="my-server"
+$env:SERVICE_HOST="your name"
 $env:ANNONYMOUS_NAME="Annonymous"
 ```
 
