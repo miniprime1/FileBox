@@ -78,7 +78,7 @@ def upload():
 
     file = request.files["file"]
     password = (request.form.get("password") or "").strip()
-    uploader = (request.form.get("uploader") or "").strip() or "익명의 담송인"
+    uploader = (request.form.get("uploader") or "").strip() or ANNONYMOUS_NAME
 
     if not file or not file.filename:
         flash("유효한 파일이 아닙니다.")
