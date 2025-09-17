@@ -1,0 +1,2 @@
+SFlask>=3.0
+gunicorn>=22.0

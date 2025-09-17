@@ -1,136 +1,95 @@
 # FileBox
 
-**FileBox** is a lightweight, self‑hosted file sharing service. It runs on a single Flask app and stores metadata in a simple CSV file. No login is required—open the site, upload a file, (optionally) set a password, and share the page with others to download.
+FileBox is a lightweight, self-hosted file sharing service.
+It runs on a single Flask app ([`main/`](./main/)) and stores metadata in a simple CSV file. No login is required—open the site, upload a file, (optionally) set a password, and share the page with others to download. For multi-instance setups, an optional, customizable landing page is available in [`gateway/`]((./gateway/)) to link multiple FileBox nodes, and a Dockerfile is included for containerizing it if needed.
 
 <p align="center">
-  <img src="./Screenshot.png" alt="Screenshot" width="720">
+  <img src="./screenshot_2.png" alt="Screenshot" width="720">
 </p>
 
 ## Features
 
-- **One‑page Web UI**: Upload & download in a single screen.
-- **Optional password**: Protect individual files with a simple password field.
-- **Optional uploader name**: Record who uploaded each file.
-- **CSV index**: Tracks upload time, uploader, size, password (plaintext by design), and filename.
-- **Docker‑ready**: Build once and run anywhere.
+- **One-page Web UI** – Upload & download in a single screen
+- **Optional password** – Protect files with a simple password field
+- **Optional uploader name** – Record who uploaded each file
+- **CSV index** – Tracks upload time, uploader, size, password (plaintext), and filename
+- **Docker-ready** – Build once and run anywhere
 
 > **Note on security**: Passwords are stored as **plaintext** in `index.csv` by design for simplicity. Use only in trusted networks or adapt the code to hash passwords if you need stronger security.
 
+## Getting Started (Main App)
 
-<br>
+The **core FileBox service** lives in the `main/` folder.  
+Below are two common ways to run it. **Docker** is recommended for quick setup and persistence.
 
+### A. Run with Docker
 
-## Getting Started
-
-Below are two common ways to run FileBox. **Docker** is recommended for a quick start and easy data persistence.
-
-### A. Run with Docker (recommended)
-
-1) **Clone the repository**  
 ```bash
 git clone https://github.com/miniprime1/FileBox.git
-cd FileBox
-```
+cd FileBox/main
 
-2) **Build the image** (tagged as `filebox:latest` per project convention)  
-```bash
 docker build -t filebox:latest .
-```
-
-3) **Prepare a data folder on the host**  
-This folder will persist your files and the CSV index outside the container.
-```bash
 mkdir -p ./uploads
-```
 
-4) **Run the container**  
-The app listens on port **8000** inside the container. We’ll bind it to host port **8000** and mount the data folder to **`/app/uploads`**.
-
-```bash
 docker run -d \
   --name filebox \
   -p 8000:8000 \
   -e MAX_MB=100 \
   -e SERVICE_HOST="your name" \
-  -e ANNONYMOUS_NAME="Annonymous" \
+  -e ANNONYMOUS_NAME="Anonymous" \
   -v "$(pwd)/uploads:/app/uploads" \
   filebox:latest
 ```
 
-- **Environment variables used here**
-  - `MAX_MB`: Maximum upload size in MB (defaults to `100` if not set).
-  - `SERVICE_HOST`: A short identifier shown in the header (e.g., a hostname or site label).
-  - `ANNONYMOUS_NAME`: Name shown for uploads where no uploader is specified (defaults to `"Anonymous"`).
-- **Storage location**
-  - All uploaded files and the CSV index are written to **`/app/uploads`** inside the container (mounted to `./uploads` on your host).
-  - The CSV file is `./uploads/index.csv` (automatically created on first run).
+Visit **http://localhost:8000** (or replace `localhost` with your server/NAS IP).
 
-5) **Open FileBox**  
-Visit **http://localhost:8000** (or replace `localhost` with your server/NAS IP if running remotely).
+### B. Run locally (Python)
 
-> **Windows PowerShell tip**: Replace `$(pwd)` with `${PWD}` in the `-v` option:
-> ```powershell
-> docker run -d `
->   --name filebox `
->   -p 8000:8000 `
->   -e MAX_MB=100 `
->   -e SERVICE_HOST="your name" `
->   -e ANNONYMOUS_NAME="Annonymous" `
->   -v ${PWD}\uploads:/app/uploads `
->   filebox:latest
-> ```
-
-
-### B. Run locally
-
-1) **Create a virtual environment & install Flask**
 ```bash
+cd main
 python -m venv .venv
 source .venv/bin/activate   # Windows: .venv\Scripts\activate
 pip install Flask==3.0.3
-```
 
-2) **(Optional) Set environment variables**
-```bash
-# Linux/macOS
 export MAX_MB=100
 export SERVICE_HOST="your name"
-export ANNONYMOUS_NAME="Annonymous"
+export ANNONYMOUS_NAME="Anonymous"
 
-# Windows PowerShell
-$env:MAX_MB="100"
-$env:SERVICE_HOST="your name"
-$env:ANNONYMOUS_NAME="Annonymous"
-```
-
-3) **Run the app** <br>
-Run the app and open **http://127.0.0.1:8000** in your browser.
-```bash
 python main.py
 ```
 
-4) **Where files are stored**
-- When running locally, files are saved under `./uploads` (created automatically).
-- Metadata is recorded in `./uploads/index.csv`.
-
-<br>
+Open **http://127.0.0.1:8000** in your browser.
 
 ## Configuration Reference
 
-### Environment Variables
+| Variable           | Default       | Description                                           |
+|-------------------|-------------|-------------------------------------------------------|
+| `MAX_MB`          | `100`       | Maximum upload size (MB). Also shown in UI header.   |
+| `SERVICE_HOST`    | *(empty)*   | Optional label shown in the header.                  |
+| `ANNONYMOUS_NAME` | `Anonymous` | Name displayed if no uploader is specified.          |
 
-| Variable       | Default | Where it appears & What it does                                    |
-|----------------|---------|--------------------------------------------------------------------|
-| `MAX_MB`       | `100`   | Maximum upload size (MB). Also shown in the UI header.             |
-| `SERVICE_HOST` | ` `      | Optional label shown in the header.                                |
-| `ANNONYMOUS_NAME` | `Annonymous`    | Name displayed if uploader does not specify their name.        |
+- **Internal storage path:** `/app/uploads`  
+- **Index file:** `/app/uploads/index.csv` (auto-created with headers)
 
-### Path to File Storage
+## Gateway (Optional)
 
-- **Internal storage path**: `/app/uploads` (container) — mount this path to a host directory for persistence.  
-- **Index file**: `/app/uploads/index.csv` — created automatically with headers `created_at`, `uploader`, `size`, `password`, `filename`.
+<p align="center">
+  <img src="./screenshot_1.png" alt="Screenshot" width="720">
+</p>
 
-<br>
+
+
+This repository also includes a **`gateway/`** folder — a simple landing page that links multiple FileBox instances (e.g., for different classes or teams).
+
+- The gateway app is intentionally minimal and **meant to be customized** (HTML buttons, style, links).
+- A `Dockerfile` is provided in `gateway/` so you can containerize it if needed:
+```bash
+cd gateway
+docker build -t filebox-gateway:latest .
+docker run -d -p 8080:8000 filebox-gateway:latest
+```
+
+> Because each organization or school will have different URLs and design, you are encouraged to edit `templates/index.html` before deployment.
 
 ## License
 
