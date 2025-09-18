@@ -5,6 +5,9 @@ from flask import *
 
 BASE_DIR = Path(__file__).resolve().parent
 
+SERVICE_HOST = str(os.getenv("SERVICE_HOST", ""))
+SERVICE_HOST_ENCODED = f"for {SERVICE_HOST}" if SERVICE_HOST != "" else ""
+
 app = Flask(__name__)
 
 with open('index.html', 'r', encoding='utf-8') as f:
@@ -12,7 +15,7 @@ with open('index.html', 'r', encoding='utf-8') as f:
 
 @app.get("/")
 def index():
-    return render_template_string(PAGE)
+    return render_template_string(PAGE, service_host_encoded=SERVICE_HOST_ENCODED)
 
 @app.get("/healthz")
 def healthz():

@@ -19,6 +19,8 @@ MAX_CONTENT_LENGTH = MAX_MB * 1024 * 1024
 SERVICE_HOST = str(os.getenv("SERVICE_HOST", ""))
 SERVICE_HOST_ENCODED = f"for {SERVICE_HOST}" if SERVICE_HOST != "" else ""
 
+ANONYMOUS_NAME = str(os.getenv("ANONYMOUS_NAME", "Anonymous"))
+
 app = Flask(__name__)
 app.config.update(
     MAX_CONTENT_LENGTH=MAX_CONTENT_LENGTH,
@@ -38,7 +40,7 @@ def read_index() -> list[dict]:
         reader = csv.DictReader(f)
         for r in reader:
             r["size"] = int(r["size"]) if r.get("size") else 0
-            r.setdefault("uploader", "익명의 담송인")
+            r.setdefault("uploader", ANONYMOUS_NAME)
             r.setdefault("password", "")
             rows.append(r)
     rows.sort(key=lambda x: x.get("created_at", ""), reverse=True)
@@ -76,7 +78,7 @@ def upload():
 
     file = request.files["file"]
     password = (request.form.get("password") or "").strip()
-    uploader = (request.form.get("uploader") or "").strip() or "익명의 담송인"
+    uploader = (request.form.get("uploader") or "").strip() or ANONYMOUS_NAME
 
     if not file or not file.filename:
         flash("유효한 파일이 아닙니다.")
